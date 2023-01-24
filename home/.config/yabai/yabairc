@@ -2,10 +2,6 @@
 
 set -x
 
-# Unload Apple's window manager (macOS Ventura)
-# Possibly stage manager related
-launchctl unload -F /System/Library/LaunchAgents/com.apple.WindowManager.plist
-
 # Uncomment to refresh ubersicht widget on workspace change
 # Make sure to replace WIDGET NAME for the name of the ubersicht widget
 #ubersicht_spaces_refresh_command="osascript -e 'tell application id \"tracesOf.Uebersicht\" to refresh widget id \"WIDGET NAME\"'"
@@ -38,10 +34,20 @@ yabai -m config                               \
                                               \
     window_border               on            \
     window_border_blur          off           \
-    window_border_width         4             \
+    window_border_width         2             \
     window_border_radius        -1            \
+    window_origin_display       default       \
+    window_placement            second_child  \
+    window_topmost              off           \
+                                              \
     active_window_border_color  "0xfff4dbd6"  \
-    normal_window_border_color  "0x6F363a4f"  \
+    normal_window_border_color  "0x00363a4f"  \
+                                              \
+    window_opacity              off           \
+    active_window_opacity       1.0           \
+    normal_window_opacity       1.0           \
+                                              \
+    window_animation_duration 0.1             \
                                               \
     split_ratio                 0.50          \
                                               \
@@ -64,11 +70,12 @@ yabai -m rule --add label="mpv" app="^mpv$" manage=off
 yabai -m rule --add label="JetBrains Toolbox" app="JetBrains Toolbox" title=".*" manage=off
 yabai -m rule --add label="Raycast Settings" app="Raycast" title=".*" manage=off
 yabai -m rule --add label="FaceTime" app="FaceTime" title=".*" manage=off
-yabai -m rule --add app="^Android Studio" manage=off
-yabai -m rule --add app="^Android Studio" title="~/" manage=on
 yabai -m rule --add app="^Steam" manage=off
 yabai -m rule --add app="^Cryptomator" manage=off
 yabai -m rule --add app="Microsoft Teams" title="*Notification" manage=off
+
+# https://github.com/koekeishiya/yabai/issues/194#issuecomment-880106547
+yabai -m rule --add app="^Android Studio" title!="(.*\[(.*)\].*)|(.*\(\:.*\).*)" manage=off
 
 # ===== Signals ================================
 
@@ -76,39 +83,49 @@ yabai -m signal --add event=window_created action="yabai -m query --windows --wi
 
 # ===== Sketchybar Events ======================
 
-yabai -m signal --add event=window_focused       action="sketchybar -m --trigger window_focus"
-yabai -m signal --add event=window_title_changed action="sketchybar -m --trigger title_change"
+# yabai -m signal --add event=window_focused       action="sketchybar -m --trigger window_focus"
+# yabai -m signal --add event=window_title_changed action="sketchybar -m --trigger title_change"
 
 # ===== Spaces =================================
 yabai -m space 1 --label main
 
-yabai -m space 2                --label browser
-yabai -m rule --add app="SigmaOS" space=browser
+yabai -m space 2                --label notes
+yabai -m rule --add app="Notes"   space=notes
+yabai -m rule --add app="OneNote" space=notes
+yabai -m rule --add app="Notion"  space=notes
 
-yabai -m space 3                       --label productivity
+yabai -m space 3                    --label browser
+yabai -m rule --add app="Safari"      space=browser
+yabai -m rule --add app="Firefox"     space=browser
+yabai -m rule --add app="SigmaOS"     space=browser
+yabai -m rule --add app="qutebrowser" space=browser
+
+yabai -m space 4                       --label productivity
 yabai -m rule --add app="Android Studio" space=productivity
 yabai -m rule --add app="Visual Studio"  space=productivity
 yabai -m rule --add app="VSCodium"       space=productivity
 yabai -m rule --add app="Insomnia"       space=productivity
 
-yabai -m space 4                 --label terminal
+yabai -m space 5                 --label terminal
 yabai -m rule --add app="Terminal" space=terminal
 yabai -m rule --add app="kitty"    space=terminal
 yabai -m rule --add app="iTerm2"   space=terminal
 
-yabai -m space 5                        --label messages
+yabai -m space 6                        --label messages
 yabai -m rule --add app="Messages"        space=messages
 yabai -m rule --add app="Microsoft Teams" space=messages
 
-yabai -m space 6                    --label mail
+yabai -m space 7                    --label mail
 yabai -m rule --add app="Thunderbird" space=mail
 
-yabai -m space 7                 --label schedule
+yabai -m space 8                 --label schedule
 yabai -m rule --add app="Calendar" space=schedule
 yabai -m rule --add app="TickTick" space=schedule
 
-yabai -m space 8               --label entertainment
-yabai -m rule --add app="Deezer" space=entertainment
+yabai -m space 9                      --label entertainment
+yabai -m rule --add app="Spotify"       space=entertainment
+yabai -m rule --add app="Deezer"        space=entertainment
+yabai -m rule --add app="YouTube Music" space=entertainment
 
 set +x
 printf "yabai: configuration loaded...\\n"

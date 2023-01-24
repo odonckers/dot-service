@@ -22,4 +22,4 @@ else
   esac
 fi
 
-sketchybar -m --set $NAME icon=$ICON label="$VOLUME%"
+sketchybar -m --set "$NAME" icon=$ICON slider.percentage="$VOLUME"

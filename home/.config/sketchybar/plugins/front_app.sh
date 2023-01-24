@@ -28,7 +28,7 @@
 #   *) sketchybar --set $NAME label="$INFO";;
 # esac
 
-sketchybar --set $NAME label="$INFO"
+sketchybar --set "$NAME" label="$INFO"
 
 # (
 # apps=$(yabai -m query --windows --space | jq -r '.[1:][].app')
