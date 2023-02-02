@@ -41,11 +41,11 @@ yabai -m config                               \
     window_topmost              off           \
                                               \
     active_window_border_color  "0xfff4dbd6"  \
-    normal_window_border_color  "0x00363a4f"  \
+    normal_window_border_color  "0x8f363a4f"  \
                                               \
     window_opacity              off           \
     active_window_opacity       1.0           \
-    normal_window_opacity       1.0           \
+    normal_window_opacity       0.8           \
                                               \
     window_animation_duration 0.1             \
                                               \
@@ -73,6 +73,7 @@ yabai -m rule --add label="FaceTime" app="FaceTime" title=".*" manage=off
 yabai -m rule --add app="^Steam" manage=off
 yabai -m rule --add app="^Cryptomator" manage=off
 yabai -m rule --add app="Microsoft Teams" title="*Notification" manage=off
+yabai -m rule --add app="^Ivanti*" manage=off
 
 # https://github.com/koekeishiya/yabai/issues/194#issuecomment-880106547
 yabai -m rule --add app="^Android Studio" title!="(.*\[(.*)\].*)|(.*\(\:.*\).*)" manage=off
@@ -121,11 +122,6 @@ yabai -m rule --add app="Thunderbird" space=mail
 yabai -m space 8                 --label schedule
 yabai -m rule --add app="Calendar" space=schedule
 yabai -m rule --add app="TickTick" space=schedule
-
-yabai -m space 9                      --label entertainment
-yabai -m rule --add app="Spotify"       space=entertainment
-yabai -m rule --add app="Deezer"        space=entertainment
-yabai -m rule --add app="YouTube Music" space=entertainment
 
 set +x
 printf "yabai: configuration loaded...\\n"

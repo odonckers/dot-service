@@ -35,8 +35,8 @@ ctrl - 0 : yabai -m space --focus 10
 
 ## Create and destroy spaces
 
-lctrl + shift - 0x18 : yabai -m space --create # plus key code
-lctrl + shift - 0x1B : yabai -m space --destroy # minus key code
+lctrl + shift - n : yabai -m space --create
+lctrl + shift - d : yabai -m space --destroy
 
 ## Move spaces
 
@@ -49,8 +49,6 @@ lctrl + alt - r : yabai -m space --rotate 270
 
 lctrl + alt - x : yabai -m space --mirror x-axis
 lctrl + alt - y : yabai -m space --mirror y-axis
-
-lctrl + alt - e : yabai -m space --balance
 
 ### Window commands (hotkey = alt)
 
@@ -69,6 +67,8 @@ lctrl + alt - up    : yabai -m window --warp north || $(yabai -m window --displa
 lctrl + alt - right : yabai -m window --warp east  || $(yabai -m window --display east;  yabai -m display --focus east)
 
 # Resize windows (breaks hotkey rules)
+lctrl + alt + shift - x : yabai -m space --balance
+
 lctrl + alt + shift - h : yabai -m window --resize left:-50:0; \
                           yabai -m window --resize right:-50:0
 lctrl + alt + shift - j : yabai -m window --resize bottom:0:50; \
