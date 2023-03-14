@@ -1,10 +1,4 @@
-#!/usr/bin/env bash
-
-set -x
-
-# Uncomment to refresh ubersicht widget on workspace change
-# Make sure to replace WIDGET NAME for the name of the ubersicht widget
-#ubersicht_spaces_refresh_command="osascript -e 'tell application id \"tracesOf.Uebersicht\" to refresh widget id \"WIDGET NAME\"'"
+#!/opt/homebrew/bin/bash
 
 # ===== Loading Scripting Additions ============
 
@@ -14,114 +8,98 @@ sudo yabai --load-sa
 
 # ===== Tiling setting =========================
 
-yabai -m config                               \
-    layout                      bsp           \
-                                              \
-    external_bar                all:32:0      \
-                                              \
-    top_padding                 8             \
-    bottom_padding              8             \
-    left_padding                8             \
-    right_padding               8             \
-    window_gap                  12            \
-                                              \
-    mouse_follows_focus         off           \
-    focus_follows_mouse         off           \
-                                              \
-    window_topmost              off           \
-    window_opacity              off           \
-    window_shadow               float         \
-                                              \
-    window_border               on            \
-    window_border_blur          off           \
-    window_border_width         2             \
-    window_border_radius        -1            \
-    window_origin_display       default       \
-    window_placement            second_child  \
-    window_topmost              off           \
-                                              \
-    active_window_border_color  "0xfff4dbd6"  \
-    normal_window_border_color  "0x8f363a4f"  \
-                                              \
-    window_opacity              off           \
-    active_window_opacity       1.0           \
-    normal_window_opacity       0.8           \
-                                              \
-    window_animation_duration 0.1             \
-                                              \
-    split_ratio                 0.50          \
-                                              \
-    auto_balance                off           \
-                                              \
-    mouse_modifier              ctrl          \
-    mouse_action1               move          \
-    mouse_action2               stack
+yabai -m config \
+	layout bsp \
+	\
+	window_placement second_child \
+	\
+	top_padding 10 \
+	bottom_padding 10 \
+	left_padding 10 \
+	right_padding 10 \
+	window_gap 15 \
+	\
+	auto_balance on \
+	\
+	split_ratio 0.5 \
+	\
+	mouse_modifier fn \
+	mouse_action1 move \
+	mouse_action2 resize \
+	\
+	focus_follows_mouse autoraise \
+	mouse_follows_focus on \
+	\
+	window_topmost off \
+	window_shadow on \
+	\
+	window_opacity off \
+	active_window_opacity 1.0 \
+	normal_window_opacity 1.0 \
+	\
+	window_border off \
+	window_border_blur off \
+	window_border_radius -1 \
+	window_border_width 1 \
+	active_window_border_color "0xffffffff" \
+	normal_window_border_color "0x00ffffff" \
+	\
+	window_origin_display default \
+	\
+	window_animation_duration 0.3 \
+	\
+	external_bar all:0:0
+
+# ===== Spaces =================================
+
+yabai -m space 1 --label main
+yabai -m space 2 --label action-1
+yabai -m space 3 --label action-2
+yabai -m space 4 --label messages
+yabai -m space 5 --label mail
 
 # ===== Rules ==================================
 
-yabai -m rule --add label="Finder" app="^Finder$" title="(Co(py|nnect)|Move|Info|Settings)" manage=off
-yabai -m rule --add label="System Settings" app="^System Settings$" title=".*" manage=off
-yabai -m rule --add label="App Store" app="^App Store$" manage=off
-yabai -m rule --add label="Safari" app="^Safari$" title="^(General|(Tab|Password|Website|Extension)s|AutoFill|Se(arch|curity)|Privacy|Advance)$" manage=off
-yabai -m rule --add label="Activity Monitor" app="^Activity Monitor$" manage=off
-yabai -m rule --add label="Calculator" app="^Calculator$" manage=off
-yabai -m rule --add label="Dictionary" app="^Dictionary$" manage=off
-yabai -m rule --add label="mpv" app="^mpv$" manage=off
-yabai -m rule --add label="JetBrains Toolbox" app="JetBrains Toolbox" title=".*" manage=off
-yabai -m rule --add label="Raycast Settings" app="Raycast" title=".*" manage=off
+yabai -m rule --add label="Arc" app="^Arc$" title="^(Account)$" manage=off
 yabai -m rule --add label="FaceTime" app="FaceTime" title=".*" manage=off
-yabai -m rule --add app="^Steam" manage=off
-yabai -m rule --add app="^Cryptomator" manage=off
-yabai -m rule --add app="Microsoft Teams" title="*Notification" manage=off
-yabai -m rule --add app="^Ivanti*" manage=off
+yabai -m rule --add label="JetBrains Toolbox" app="JetBrains Toolbox" title=".*" manage=off
+yabai -m rule --add label="Microsoft Teams Notification" app="Microsoft Teams" title="Microsoft Teams Notification" manage=off mouse_follows_focus=off
+yabai -m rule --add label="Raycast Settings" app="Raycast" title=".*" manage=off
+yabai -m rule --add label="System Settings" app="^System Settings$" title=".*" manage=off sticky=on
 
-# https://github.com/koekeishiya/yabai/issues/194#issuecomment-880106547
+yabai -m rule --add label="Activity Monitor" app="^Activity Monitor$" manage=off
+yabai -m rule --add label="App Store" app="^App Store$" manage=off
+yabai -m rule --add label="Avira" app="^Avira*" manage=off
+yabai -m rule --add label="Bartender" app="^Bartender 4$" manage=off sticky=on
+yabai -m rule --add label="Calculator" app="^Calculator$" manage=off sticky=on
+yabai -m rule --add label="Cryptomator" app="^Cryptomator" manage=off
+yabai -m rule --add label="Dictionary" app="^Dictionary$" manage=off
+yabai -m rule --add label="Ivanti" app="^Ivanti*$" manage=off
+yabai -m rule --add label="Maccy" app="^Maccy$" manage=off
+yabai -m rule --add label="mpv" app="^mpv$" manage=off
+yabai -m rule --add label="Stream" app="^Steam$" manage=off
+yabai -m rule --add label="SwiftBar" app="^SwiftBar$" manage=off
+
+yabai -m rule --add label="Messages" app="Messages" space=messages
+yabai -m rule --add label="WhatsApp" app="WhatsApp" space=messages
+
+yabai -m rule --add label="Thunderbird" app="Thunderbird" space=mail
+
+yabai -m rule --add label="Android Studio" app="^Android Studio" manage=off title="^(Android Device Manager)$"
+yabai -m rule --add label="Arc" app="^Arc$" manage=off title="^(Account|General|Shortcuts|Little Arc|Previews|Updates|Archive|Site Settings|Advanced)$"
+yabai -m rule --add label="Finder" app="^Finder$" manage=off title="(Co(py|nnect)|Move|Info|Settings)"
+yabai -m rule --add label="Rider" app="^JetBrains Rider$" manage=off title="^(Settings|Rename)$"
+yabai -m rule --add label="Safari" app="^Safari$" manage=off title="^(General|(Tab|Password|Website|Extension)s|AutoFill|Se(arch|curity)|Privacy|Advance)$"
+yabai -m rule --add label="Visual Studio" app="^Visual Studio$" manage=off title="^(Preferences|Find in Files)$"
+
+yabai -m rule --add label="Arc System Dialog" app="^Arc$" subrole="AXSystemDialog" manage=off mouse_follows_focus=off border=off
+
+# See: https://github.com/koekeishiya/yabai/issues/194#issuecomment-880106547
 yabai -m rule --add app="^Android Studio" title!="(.*\[(.*)\].*)|(.*\(\:.*\).*)" manage=off
+yabai -m rule --add app="^JetBrains Rider" title!="(.*\[(.*)\].*)|(.*\(\:.*\).*)" manage=off
 
 # ===== Signals ================================
 
 yabai -m signal --add event=window_created action="yabai -m query --windows --window $YABAI_WINDOW_ID | jq -er '.\"can-resize\" == false and .\"is-floating\" == false' && yabai -m window $YABAI_WINDOW_ID --toggle float"
 
-# ===== Sketchybar Events ======================
-
-# yabai -m signal --add event=window_focused       action="sketchybar -m --trigger window_focus"
-# yabai -m signal --add event=window_title_changed action="sketchybar -m --trigger title_change"
-
-# ===== Spaces =================================
-yabai -m space 1 --label main
-
-yabai -m space 2                --label notes
-yabai -m rule --add app="Notes"   space=notes
-yabai -m rule --add app="OneNote" space=notes
-yabai -m rule --add app="Notion"  space=notes
-
-yabai -m space 3                    --label browser
-yabai -m rule --add app="Safari"      space=browser
-yabai -m rule --add app="Firefox"     space=browser
-yabai -m rule --add app="SigmaOS"     space=browser
-yabai -m rule --add app="qutebrowser" space=browser
-
-yabai -m space 4                       --label productivity
-yabai -m rule --add app="Android Studio" space=productivity
-yabai -m rule --add app="Visual Studio"  space=productivity
-yabai -m rule --add app="VSCodium"       space=productivity
-yabai -m rule --add app="Insomnia"       space=productivity
-
-yabai -m space 5                 --label terminal
-yabai -m rule --add app="Terminal" space=terminal
-yabai -m rule --add app="kitty"    space=terminal
-yabai -m rule --add app="iTerm2"   space=terminal
-
-yabai -m space 6                        --label messages
-yabai -m rule --add app="Messages"        space=messages
-yabai -m rule --add app="Microsoft Teams" space=messages
-
-yabai -m space 7                    --label mail
-yabai -m rule --add app="Thunderbird" space=mail
-
-yabai -m space 8                 --label schedule
-yabai -m rule --add app="Calendar" space=schedule
-yabai -m rule --add app="TickTick" space=schedule
-
-set +x
 printf "yabai: configuration loaded...\\n"

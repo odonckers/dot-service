@@ -1,26 +1,14 @@
-# mod1 = lctrl + alt
-# mod2 = lctrl + shift
-# mod3 = lctrl + alt + shift
-#
-# minus = 0x1B
-# plus = 0x18
-
-### Display commands
-
-# ...
-
-
 ### Space commands (hotkey = mod2)
 
-lctrl + shift - k : yabai -m window --focus stack.prev || yabai -m window --focus stack.last
-lctrl + shift - j : yabai -m window --focus stack.next || yabai -m window --focus stack.first
-lctrl + shift - s : yabai -m window --stack recent
+lctrl + shift - k    : yabai -m window --focus stack.prev || yabai -m window --focus stack.last
+lctrl + shift - j    : yabai -m window --focus stack.next || yabai -m window --focus stack.first
+lctrl + shift - 0x2F : yabai -m window --stack recent
 
 ## Focus space
 
-lctrl + shift - x : yabai -m space --focus recent
-lctrl + shift - h : yabai -m space --focus prev
-lctrl + shift - l : yabai -m space --focus next
+lctrl + shift - 0x2F : yabai -m space --focus recent
+lctrl + shift - h    : yabai -m space --focus prev
+lctrl + shift - l    : yabai -m space --focus next
 
 ctrl - 1 : yabai -m space --focus 1
 ctrl - 2 : yabai -m space --focus 2
@@ -61,22 +49,40 @@ lctrl + alt - l : yabai -m window --focus east  || yabai -m display --focus east
 
 ## Move window (warp rather than swap)
 
-lctrl + alt - left  : yabai -m window --warp west  || $(yabai -m window --display west;  yabai -m display --focus west)
-lctrl + alt - down  : yabai -m window --warp south || $(yabai -m window --display south; yabai -m display --focus south)
-lctrl + alt - up    : yabai -m window --warp north || $(yabai -m window --display north; yabai -m display --focus north)
-lctrl + alt - right : yabai -m window --warp east  || $(yabai -m window --display east;  yabai -m display --focus east)
+lctrl + alt + shift - h : $(yabai -m window --warp    west; yabai -m window  --focus east; yabai -m window  --focus west) || \
+                          $(yabai -m window --display west; yabai -m display --focus west)
+
+lctrl + alt + shift - j : $(yabai -m window --warp    south; yabai -m window  --focus north; yabai -m window  --focus south) || \
+                          $(yabai -m window --display south; yabai -m display --focus south)
+
+lctrl + alt + shift - k : $(yabai -m window --warp    north; yabai -m window  --focus south; yabai -m window  --focus north) || \
+                          $(yabai -m window --display north; yabai -m display --focus north)
+
+lctrl + alt + shift - l : $(yabai -m window --warp    east; yabai -m window  --focus west; yabai -m window  --focus east) || \
+                          $(yabai -m window --display east; yabai -m display --focus east)
 
 # Resize windows (breaks hotkey rules)
-lctrl + alt + shift - x : yabai -m space --balance
+lctrl + alt - left  : yabai -m window --resize  left:-50:0; \
+                      yabai -m window --resize right:-50:0;
 
-lctrl + alt + shift - h : yabai -m window --resize left:-50:0; \
-                          yabai -m window --resize right:-50:0
-lctrl + alt + shift - j : yabai -m window --resize bottom:0:50; \
-                          yabai -m window --resize top:0:50
-lctrl + alt + shift - k : yabai -m window --resize top:0:-50; \
-                          yabai -m window --resize bottom:0:-50
-lctrl + alt + shift - l : yabai -m window --resize right:50:0; \
-                          yabai -m window --resize left:50:0
+lctrl + alt - down  : yabai -m window --resize bottom:0:50; \
+                      yabai -m window --resize    top:0:50
+
+lctrl + alt - up    : yabai -m window --resize    top:0:-50; \
+                      yabai -m window --resize bottom:0:-50
+
+lctrl + alt - right : yabai -m window --resize right:50:0; \
+                      yabai -m window --resize  left:50:0
+
+lctrl + alt - 0x2B : yabai -m space  --balance;            \
+                     yabai -m window --resize right:200:0; \
+                     yabai -m window --resize  left:200:0
+
+lctrl + alt - 0x2F : yabai -m space --balance
+
+lctrl + alt - 0x2C : yabai -m space  --balance;             \
+                     yabai -m window --resize  left:-200:0; \
+                     yabai -m window --resize right:-200:0
 
 # Toggle full screen
 lctrl + alt - f : yabai -m window --toggle zoom-fullscreen
@@ -91,7 +97,7 @@ lctrl + alt - a : yabai -m window --toggle sticky
 lctrl + alt - space : yabai -m window --toggle float; yabai -m window --toggle border
 
 # Move window between spaces
-lctrl + alt + shift - x     : yabai -m window --space last;  yabai -m space --focus last
+lctrl + alt + shift - 0x2F  : yabai -m window --space last;  yabai -m space --focus last
 lctrl + alt + shift - left  : yabai -m window --space prev;  yabai -m space --focus prev
 lctrl + alt + shift - right : yabai -m window --space next;  yabai -m space --focus next
 lctrl + alt + shift - 1     : yabai -m window --space 1;     yabai -m space --focus 1
@@ -109,4 +115,4 @@ lctrl + alt + shift - 0     : yabai -m window --space 10;    yabai -m space --fo
 lctrl + alt + shift - r : \
     /usr/bin/env osascript <<< \
         "display notification \"Restarting Yabai\" with title \"Yabai\""; \
-    launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
+    launchctl kickstart -k "gui/${UID}/homebrew.mxcl.fyabai"
