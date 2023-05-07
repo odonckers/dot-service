@@ -1,42 +1,37 @@
 ### Space commands (hotkey = mod2)
 
-lctrl + shift - k    : yabai -m window --focus stack.prev || yabai -m window --focus stack.last
-lctrl + shift - j    : yabai -m window --focus stack.next || yabai -m window --focus stack.first
-lctrl + shift - 0x2F : yabai -m window --stack recent
+lctrl + shift - k : yabai -m window --focus stack.prev || yabai -m window --focus stack.last
+lctrl + shift - j : yabai -m window --focus stack.next || yabai -m window --focus stack.first
+
+lctrl + shift - s : yabai -m window --stack recent
 
 ## Focus space
 
-lctrl + shift - 0x2F : yabai -m space --focus recent
-lctrl + shift - h    : yabai -m space --focus prev
-lctrl + shift - l    : yabai -m space --focus next
+# Requires SIP to be disabled
+#lctrl + shift - h    : yabai -m space --focus prev
+#lctrl + shift - l    : yabai -m space --focus next
 
-ctrl - 1 : yabai -m space --focus 1
-ctrl - 2 : yabai -m space --focus 2
-ctrl - 3 : yabai -m space --focus 3
-ctrl - 4 : yabai -m space --focus 4
-ctrl - 5 : yabai -m space --focus 5
-ctrl - 6 : yabai -m space --focus 6
-ctrl - 7 : yabai -m space --focus 7
-ctrl - 8 : yabai -m space --focus 8
-ctrl - 9 : yabai -m space --focus 9
-ctrl - 0 : yabai -m space --focus 10
+#ctrl - 1 : yabai -m space --focus 1
+#ctrl - 2 : yabai -m space --focus 2
+#ctrl - 3 : yabai -m space --focus 3
+#ctrl - 4 : yabai -m space --focus 4
+#ctrl - 5 : yabai -m space --focus 5
+#ctrl - 6 : yabai -m space --focus 6
+#ctrl - 7 : yabai -m space --focus 7
+#ctrl - 8 : yabai -m space --focus 8
+#ctrl - 9 : yabai -m space --focus 9
+#ctrl - 0 : yabai -m space --focus recent
 
-## Create and destroy spaces
-
-lctrl + shift - n : yabai -m space --create
-lctrl + shift - d : yabai -m space --destroy
-
-## Move spaces
-
-lctrl + shift - left  : yabai -m space --move prev
-lctrl + shift - right : yabai -m space --move next
+#ctrl + alt + shift - w : yabai -m space --focus web
+#ctrl + alt + shift - s : yabai -m space --focus social
+#ctrl + alt + shift - m : yabai -m space --focus mail
 
 ## Modify window tree
 
-lctrl + alt - r : yabai -m space --rotate 270
+lctrl + shift - r : yabai -m space --rotate 270
 
-lctrl + alt - x : yabai -m space --mirror x-axis
-lctrl + alt - y : yabai -m space --mirror y-axis
+lctrl + shift - x : yabai -m space --mirror x-axis
+lctrl + shift - y : yabai -m space --mirror y-axis
 
 ### Window commands (hotkey = alt)
 
@@ -47,21 +42,26 @@ lctrl + alt - j : yabai -m window --focus south || yabai -m display --focus sout
 lctrl + alt - k : yabai -m window --focus north || yabai -m display --focus north
 lctrl + alt - l : yabai -m window --focus east  || yabai -m display --focus east
 
+# 0x21 = [
+# 0x1E = ]
+lctrl + alt - 0x21 : yabai -m window --focus "$(yabai -m query --windows --space | jq -re "sort_by(.frame.x, .frame.y, .id) | map(select(.\"is-visible\" == true and .role != \"AXUnknown\")) | nth(index(map(select(.\"has-focus\" == true))) - 1).id")"
+lctrl + alt - 0x1E : yabai -m window --focus "$(yabai -m query --windows --space | jq -re "sort_by(.frame.x, .frame.y, .id) | map(select(.\"is-visible\" == true and .role != \"AXUnknown\")) | reverse | nth(index(map(select(.\"has-focus\" == true))) - 1).id")"
+
 ## Move window (warp rather than swap)
 
-lctrl + alt + shift - h : $(yabai -m window --warp    west; yabai -m window  --focus east; yabai -m window  --focus west) || \
-                          $(yabai -m window --display west; yabai -m display --focus west)
+lctrl + alt - y : $(yabai -m window --warp    west; yabai -m window  --focus east; yabai -m window  --focus west) || \
+                  $(yabai -m window --display west; yabai -m display --focus west)
 
-lctrl + alt + shift - j : $(yabai -m window --warp    south; yabai -m window  --focus north; yabai -m window  --focus south) || \
-                          $(yabai -m window --display south; yabai -m display --focus south)
+lctrl + alt - u : $(yabai -m window --warp    south; yabai -m window  --focus north; yabai -m window  --focus south) || \
+                  $(yabai -m window --display south; yabai -m display --focus south)
 
-lctrl + alt + shift - k : $(yabai -m window --warp    north; yabai -m window  --focus south; yabai -m window  --focus north) || \
-                          $(yabai -m window --display north; yabai -m display --focus north)
+lctrl + alt - i : $(yabai -m window --warp    north; yabai -m window  --focus south; yabai -m window  --focus north) || \
+                  $(yabai -m window --display north; yabai -m display --focus north)
 
-lctrl + alt + shift - l : $(yabai -m window --warp    east; yabai -m window  --focus west; yabai -m window  --focus east) || \
-                          $(yabai -m window --display east; yabai -m display --focus east)
+lctrl + alt - o : $(yabai -m window --warp    east; yabai -m window  --focus west; yabai -m window  --focus east) || \
+                  $(yabai -m window --display east; yabai -m display --focus east)
 
-# Resize windows (breaks hotkey rules)
+# Resize windows
 lctrl + alt - left  : yabai -m window --resize  left:-50:0; \
                       yabai -m window --resize right:-50:0;
 
@@ -74,45 +74,91 @@ lctrl + alt - up    : yabai -m window --resize    top:0:-50; \
 lctrl + alt - right : yabai -m window --resize right:50:0; \
                       yabai -m window --resize  left:50:0
 
-lctrl + alt - 0x2B : yabai -m space  --balance;            \
-                     yabai -m window --resize right:200:0; \
-                     yabai -m window --resize  left:200:0
+# Change gap
 
-lctrl + alt - 0x2F : yabai -m space --balance
+lctrl + shift - 1 : space_index=$(yabai -m query --spaces --space | jq '.index'); \
+                    yabai -m config --space $space_index left_padding  10;        \
+                    yabai -m config --space $space_index right_padding 10
 
-lctrl + alt - 0x2C : yabai -m space  --balance;             \
-                     yabai -m window --resize  left:-200:0; \
-                     yabai -m window --resize right:-200:0
+lctrl + shift - 2 : space_index=$(yabai -m query --spaces --space | jq '.index'); \
+                    yabai -m config --space $space_index left_padding  20;        \
+                    yabai -m config --space $space_index right_padding 20
 
-# Toggle full screen
-lctrl + alt - f : yabai -m window --toggle zoom-fullscreen
+lctrl + shift - 3 : space_index=$(yabai -m query --spaces --space | jq '.index'); \
+                    yabai -m config --space $space_index left_padding  30;        \
+                    yabai -m config --space $space_index right_padding 30
 
-# Toggle split vertically or horizontally
-lctrl + alt - s : yabai -m window --toggle split
+lctrl + shift - 4 : space_index=$(yabai -m query --spaces --space | jq '.index'); \
+                    yabai -m config --space $space_index left_padding  50;        \
+                    yabai -m config --space $space_index right_padding 50
 
-lctrl + alt - a : yabai -m window --toggle sticky
+lctrl + shift - 5 : space_index=$(yabai -m query --spaces --space | jq '.index'); \
+                    yabai -m config --space $space_index left_padding  80;        \
+                    yabai -m config --space $space_index right_padding 80
+
+lctrl + shift - 6 : space_index=$(yabai -m query --spaces --space | jq '.index'); \
+                    yabai -m config --space $space_index left_padding  130;       \
+                    yabai -m config --space $space_index right_padding 130
+
+lctrl + shift - 7 : space_index=$(yabai -m query --spaces --space | jq '.index'); \
+                    yabai -m config --space $space_index left_padding  210;       \
+                    yabai -m config --space $space_index right_padding 210
+
+lctrl + shift - 8 : space_index=$(yabai -m query --spaces --space | jq '.index'); \
+                    yabai -m config --space $space_index left_padding  340;       \
+                    yabai -m config --space $space_index right_padding 340
+
+lctrl + shift - 9 : space_index=$(yabai -m query --spaces --space | jq '.index'); \
+                    yabai -m config --space $space_index left_padding  550;       \
+                    yabai -m config --space $space_index right_padding 550
+
+lctrl + shift - 0 : space_index=$(yabai -m query --spaces --space | jq '.index'); \
+                    yabai -m config --space $space_index left_padding  890;       \
+                    yabai -m config --space $space_index right_padding 890
+
+lctrl + shift - 0x18 : yabai -m space --balance
 
 # Toggle window properties
-#alt + shift - s     : yabai -m window --toggle sticky
-lctrl + alt - space : yabai -m window --toggle float; yabai -m window --toggle border
+lctrl + alt - f     : yabai -m window --toggle zoom-fullscreen
+lctrl + alt - s     : yabai -m window --toggle sticky
+lctrl + alt - space : yabai -m window --toggle float
+
+# Toggle split vertically or horizontally
+lctrl + shift - 0x1B : yabai -m window --toggle split
 
 # Move window between spaces
-lctrl + alt + shift - 0x2F  : yabai -m window --space last;  yabai -m space --focus last
-lctrl + alt + shift - left  : yabai -m window --space prev;  yabai -m space --focus prev
-lctrl + alt + shift - right : yabai -m window --space next;  yabai -m space --focus next
-lctrl + alt + shift - 1     : yabai -m window --space 1;     yabai -m space --focus 1
-lctrl + alt + shift - 2     : yabai -m window --space 2;     yabai -m space --focus 2
-lctrl + alt + shift - 3     : yabai -m window --space 3;     yabai -m space --focus 3
-lctrl + alt + shift - 4     : yabai -m window --space 4;     yabai -m space --focus 4
-lctrl + alt + shift - 5     : yabai -m window --space 5;     yabai -m space --focus 5
-lctrl + alt + shift - 6     : yabai -m window --space 6;     yabai -m space --focus 6
-lctrl + alt + shift - 7     : yabai -m window --space 7;     yabai -m space --focus 7
-lctrl + alt + shift - 8     : yabai -m window --space 8;     yabai -m space --focus 8
-lctrl + alt + shift - 9     : yabai -m window --space 9;     yabai -m space --focus 9
-lctrl + alt + shift - 0     : yabai -m window --space 10;    yabai -m space --focus 10
+
+# Requires SIP to be disabled
+#lctrl + alt + shift - y : yabai -m window --space prev;  yabai -m space --focus prev
+#lctrl + alt + shift - o : yabai -m window --space next;  yabai -m space --focus next
+
+#lctrl + alt + shift - 1 : yabai -m window --space 1;     yabai -m space --focus 1
+#lctrl + alt + shift - 2 : yabai -m window --space 2;     yabai -m space --focus 2
+#lctrl + alt + shift - 3 : yabai -m window --space 3;     yabai -m space --focus 3
+#lctrl + alt + shift - 4 : yabai -m window --space 4;     yabai -m space --focus 4
+#lctrl + alt + shift - 5 : yabai -m window --space 5;     yabai -m space --focus 5
+#lctrl + alt + shift - 6 : yabai -m window --space 6;     yabai -m space --focus 6
+#lctrl + alt + shift - 7 : yabai -m window --space 7;     yabai -m space --focus 7
+#lctrl + alt + shift - 8 : yabai -m window --space 8;     yabai -m space --focus 8
+#lctrl + alt + shift - 9 : yabai -m window --space 9;     yabai -m space --focus 9
+#lctrl + alt + shift - 0 : yabai -m window --space last;  yabai -m space --focus last
+
+lctrl + alt + shift - y : yabai -m window --space prev
+lctrl + alt + shift - o : yabai -m window --space next
+
+lctrl + alt + shift - 1 : yabai -m window --space 1
+lctrl + alt + shift - 2 : yabai -m window --space 2
+lctrl + alt + shift - 3 : yabai -m window --space 3
+lctrl + alt + shift - 4 : yabai -m window --space 4
+lctrl + alt + shift - 5 : yabai -m window --space 5
+lctrl + alt + shift - 6 : yabai -m window --space 6
+lctrl + alt + shift - 7 : yabai -m window --space 7
+lctrl + alt + shift - 8 : yabai -m window --space 8
+lctrl + alt + shift - 9 : yabai -m window --space 9
+lctrl + alt + shift - 0 : yabai -m window --space last
 
 # Restart Yabai
 lctrl + alt + shift - r : \
     /usr/bin/env osascript <<< \
         "display notification \"Restarting Yabai\" with title \"Yabai\""; \
-    launchctl kickstart -k "gui/${UID}/homebrew.mxcl.fyabai"
+    launchctl kickstart -k "gui/${UID}/homebrew.mxcl.yabai"
